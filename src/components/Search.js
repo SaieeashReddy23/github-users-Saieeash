@@ -3,22 +3,30 @@ import styled from "styled-components";
 import { MdSearch } from "react-icons/md";
 import { GithubContext, useGlobalContext } from "../context/context";
 const Search = () => {
-  const { searchInput, setSearchInput, handleSearch, limit } =
+  const { searchInput, setSearchInput, handleSearch, limit, wrong } =
     useGlobalContext();
   return (
-    <Wrapper className="section-center section">
-      <form className="form-control">
-        <MdSearch />
-        <input
-          type="text"
-          placeholder="Enter Github User"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </form>
-      <h3>Requests:{limit}/60</h3>
-    </Wrapper>
+    <div className="section">
+      <Wrapper className="section-center ">
+        {wrong && (
+          <ErrorWrapper className="section-center">
+            <p>The entered user in not found</p>
+          </ErrorWrapper>
+        )}
+
+        <form className="form-control">
+          <MdSearch />
+          <input
+            type="text"
+            placeholder="Enter Github User"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </form>
+        <h3>Requests:{limit}/60</h3>
+      </Wrapper>
+    </div>
   );
 };
 

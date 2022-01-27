@@ -11,10 +11,6 @@ const limitUrl = "https://api.github.com/rate_limit";
 
 const userUrl = "https://api.github.com/users/";
 
-const reposUrl = "https://api.github.com/users/john-smilga/repos?per_page=100";
-
-const followersUrl = "https://api.github.com/users/john-smilga/followers";
-
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
@@ -23,6 +19,7 @@ const AppProvider = ({ children }) => {
   const [repos, setRepos] = useState(mockRepos);
   const [searchInput, setSearchInput] = useState("");
   const [limit, setLimit] = useState(60);
+  const [wrong, setWrong] = useState(false);
 
   const getLimit = async () => {
     try {
@@ -38,7 +35,17 @@ const AppProvider = ({ children }) => {
     try {
       const res = await fetch(userUrl + use);
       const response = await res.json();
-      setUser(response);
+      console.log(response);
+      if (response.message && response.message === "Not Found") {
+        console.log("into the not found");
+        setWrong(true);
+      } else {
+        setWrong(false);
+        console.log("into the setuser space");
+        setUser(response);
+        getFollowers(searchInput);
+        getRepo(searchInput);
+      }
     } catch (error) {
       console.log("some error occured while fetching User");
     }
@@ -68,9 +75,6 @@ const AppProvider = ({ children }) => {
     e.preventDefault();
     console.log(searchInput + " is called");
     getUser(searchInput);
-    getFollowers(searchInput);
-    getRepo(searchInput);
-
     setSearchInput("");
   };
 
@@ -88,6 +92,7 @@ const AppProvider = ({ children }) => {
         repos,
         searchInput,
         limit,
+        wrong,
         setSearchInput,
         handleSearch,
       }}
