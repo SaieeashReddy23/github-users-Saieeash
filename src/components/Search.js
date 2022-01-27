@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { MdSearch } from "react-icons/md";
 import { GithubContext, useGlobalContext } from "../context/context";
 const Search = () => {
-  const { searchInput, setSearchInput, handleSearch, limit, wrong } =
+  const { searchInput, setSearchInput, handleSearch, limit, error } =
     useGlobalContext();
   return (
     <div className="section">
       <Wrapper className="section-center ">
-        {wrong && (
+        {error.value && (
           <ErrorWrapper className="section-center">
-            <p>The entered user in not found</p>
+            <p>{error.message}</p>
           </ErrorWrapper>
         )}
 

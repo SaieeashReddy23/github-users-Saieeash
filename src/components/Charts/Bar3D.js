@@ -9,7 +9,7 @@ const Bar3D = ({ chartData }) => {
 
   const chartConfigs = {
     type: "bar3d",
-    width: "400",
+    width: "100%",
     height: "400",
     dataFormat: "json",
 
@@ -18,6 +18,8 @@ const Bar3D = ({ chartData }) => {
         caption: "Most Forked",
         xAxisName: "Forks",
         yAxisName: "Repos",
+        xAxisNameFontSize: "16px",
+        yAxisNameFontSize: "16px",
 
         theme: "fusion",
       },

@@ -19,7 +19,8 @@ const AppProvider = ({ children }) => {
   const [repos, setRepos] = useState(mockRepos);
   const [searchInput, setSearchInput] = useState("");
   const [limit, setLimit] = useState(60);
-  const [wrong, setWrong] = useState(false);
+  const [error, setError] = useState({ value: false, message: "" });
+  const [loading, setLoading] = useState(false);
 
   const getLimit = async () => {
     try {
@@ -32,22 +33,39 @@ const AppProvider = ({ children }) => {
   };
 
   const getUser = async (use) => {
+    setLoading(true);
+    if (limit === 0) {
+      setError({
+        value: true,
+        message: "sorry, you have exceeded your hourly rate limit!!",
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(userUrl + use);
       const response = await res.json();
       console.log(response);
       if (response.message && response.message === "Not Found") {
-        console.log("into the not found");
-        setWrong(true);
+        setError({
+          value: true,
+          message: "There is no user with that username",
+        });
       } else {
-        setWrong(false);
-        console.log("into the setuser space");
+        setError({
+          value: false,
+          message: "",
+        });
+
         setUser(response);
         getFollowers(searchInput);
         getRepo(searchInput);
       }
+      setLoading(false);
     } catch (error) {
       console.log("some error occured while fetching User");
+      setLoading(false);
     }
   };
 
@@ -92,7 +110,8 @@ const AppProvider = ({ children }) => {
         repos,
         searchInput,
         limit,
-        wrong,
+        error,
+        loading,
         setSearchInput,
         handleSearch,
       }}

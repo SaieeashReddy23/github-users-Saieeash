@@ -9,7 +9,7 @@ const Column3D = ({ chartData }) => {
 
   const chartConfigs = {
     type: "column3d",
-    width: "400",
+    width: "100%",
     height: "400",
     dataFormat: "json",
 
@@ -18,6 +18,8 @@ const Column3D = ({ chartData }) => {
         caption: "Most Popular",
         xAxisName: "Repos",
         yAxisName: "Stars",
+        xAxisNameFontSize: "16px",
+        yAxisNameFontSize: "16px",
 
         theme: "fusion",
       },

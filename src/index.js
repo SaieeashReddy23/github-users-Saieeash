@@ -3,15 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { GithubProvider } from "./context/context";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import { AppProvider } from "./context/context";
 
 ReactDOM.render(
-  <AppProvider>
-    <App />
-  </AppProvider>,
+  <Auth0Provider
+    domain="dev-waxmb-nm.us.auth0.com"
+    clientId="CVTZjhp2xpVLQ1EYSu7BJFizosb1770i"
+    redirectUri={window.location.origin}
+    cacheLocation="localstorage"
+  >
+    <AppProvider>
+      <App />
+    </AppProvider>
+  </Auth0Provider>,
+
   document.getElementById("root")
 );
 
